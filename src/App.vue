@@ -1,14 +1,15 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/graph">Trees</router-link> |   
+    <router-link to="/donut">Donut</router-link> |   
+    <router-link to="/treemap">Trees</router-link> |   
     <router-link to="/about">About</router-link> 
     <br/>
     <b> Snippets: </b>
     <router-link to="/force">Force Direct Graph</router-link> |
+    <router-link to="/map">BubbleMap</router-link> |
     <router-link to="/histogram">Histogram</router-link> |
-    <router-link to="/tree">Collapsible Tree</router-link> |
-    <router-link to="/map">BubbleMap</router-link> 
+    <router-link to="/collapsible">Collapsible Tree</router-link> |
 
   </nav>
   <router-view/>
@@ -24,7 +25,7 @@
 }
 
 nav {
-  padding: 30px;
+  padding: 10px;
   /*background-color: #484444;*/
 }
 

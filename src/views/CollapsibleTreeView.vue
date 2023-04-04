@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h2>Vue.js and D3 </h2>
         <h2>{{ title }}</h2>
 
         <v-container class="bg-surface-variant" fluid>

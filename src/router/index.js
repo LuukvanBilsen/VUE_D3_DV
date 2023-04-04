@@ -39,8 +39,8 @@ const routes = [
     }
   },
   {
-    path: '/tree',
-    name: 'tree',
+    path: '/collapsible',
+    name: 'collapsible',
     component: function () {
       return import('../views/CollapsibleTreeView.vue')
     }
@@ -50,6 +50,20 @@ const routes = [
     name: 'map',
     component: function () {
       return import('../views/MapView.vue')
+    }
+  },
+  {
+    path: '/treemap',
+    name: 'treemap',
+    component: function () {
+      return import('../views/TreeDataView.vue')
+    }
+  },
+  {
+    path: '/donut',
+    name: 'donut',
+    component: function () {
+      return import('../views/DonutView.vue')
     }
   },
 ]
