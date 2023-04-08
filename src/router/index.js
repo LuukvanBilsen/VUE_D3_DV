@@ -66,6 +66,13 @@ const routes = [
       return import('../views/DonutView.vue')
     }
   },
+  {
+    path: '/time',
+    name: 'time',
+    component: function () {
+      return import('../views/TimeView.vue')
+    }
+  },
 ]
 
 const router = createRouter({
