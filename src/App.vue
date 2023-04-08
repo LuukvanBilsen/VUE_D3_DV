@@ -3,6 +3,7 @@
     <router-link to="/">Home</router-link> |
     <router-link to="/donut">Donut</router-link> |   
     <router-link to="/treemap">Trees</router-link> |   
+    <router-link to="/time">Yearly</router-link> |   
     <router-link to="/about">About</router-link> 
     <br/>
     <b> Snippets: </b>
