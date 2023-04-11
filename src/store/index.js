@@ -2,7 +2,7 @@ import { createStore } from 'vuex'
 import axios from 'axios'
 import * as _ from 'underscore'
 
-import bomen_data from '../../public/bomen.json'
+import bomen_data from '../../public/bomen_comb.json'
 import buurten_data from '../../public/buurten.json'
 
 export default createStore({

@@ -23,6 +23,10 @@ pnpm-debug.log*
 *.sw?
 
 /public/bomen.json
+/public/bomen_comb.json
 /public/flare-2.json
 /public/holtzy_DATA.json
 /public/buurten.json
+/public/buurten_pd.json
+/public/vanAreas.json
+/public/.ipynb_checkpoints

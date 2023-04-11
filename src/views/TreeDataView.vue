@@ -26,9 +26,11 @@
               </template>
               <template v-slot:default="{ isActive }">
                 <v-card>
-                  <v-toolbar color="primary" title="Opening from the bottom"></v-toolbar>
+                  <v-toolbar class="text-white" color="#000000" title="Code on this page"></v-toolbar>
                   <v-card-text>
-                    <div class="text-h2 pa-12">Hello world!</div>
+                    <div class="text pa-12">
+                      {{ codeSample }}
+                    </div>
                   </v-card-text>
                   <v-card-actions class="justify-end">
                     <v-btn variant="text" @click="isActive.value = false">Close</v-btn>
@@ -38,12 +40,14 @@
             </v-dialog>
             <br />
 
-            Buurt-code: {{ this.buurtcode }} <br />
-            Buurt-naam: {{ this.buurtnaam }} <br />
-            Wijk-code: {{ this.wijkcode }} <br />
-            Wijk-naam: {{ this.wijknaam }} <br />
-            Stadsdeel-code: {{ this.stadsdeelcode }} <br />
-            Stadsdeel-naam: {{ this.stadsdeelnaam }} <br />
+            <div style="text-align: left; margin-left: 4px">
+              Buurt-code: {{ this.buurt.buurtcode }} <br />
+              {{ this.buurt.buurtnaam }} <br />
+              Wijk-code: {{ this.buurt.wijkcode }} <br />
+              {{ this.buurt.wijknaam }} <br />
+              Stadsdeel-code: {{ this.buurt.stadsdeelcode }} <br />
+              {{ this.buurt.stadsdeelnaam }} <br />
+            </div>
 
           </v-card>
         </v-col>
@@ -54,6 +58,7 @@
         <v-col cols="12" sm="10">
           <div ref="box">
             <v-sheet class="ma-2 pa-2">
+
               <div id="mapid">
 
               </div>
@@ -74,17 +79,25 @@
 import * as d3 from 'd3'
 import "leaflet/dist/leaflet.css";
 import L from "leaflet";
+import colormap from "colormap"
+
+let colors = colormap({
+  colormap: 'hot',
+  nshades: 116,
+  format: 'hex',
+  alpha: 1
+})
 
 // import buurten from '../../public/buurten.json'
 
-function VanAreasMap(buurten) {
+function VanAreasMap(context, buurten) {
   const path = d3.geoPath()
 
-  let map = L
+  const map = L
     .map('mapid')
     .setView([51.438972, 5.476493], 1);
 
-  let osmLayer = L.tileLayer(
+  const osmLayer = L.tileLayer(
     'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a>',
     maxZoom: 16,
@@ -126,18 +139,19 @@ function VanAreasMap(buurten) {
     .on("click", clicked)
     .attr("d", path)
     .attr("fill", function (d) {
-      if (d.properties.buurtcode > 450) {
-        return "#ffa07a"
-        console.log(d.properties.buurtcode)
-      }
-      if (d.properties.buurtcode > 350) {
-        return "#FEE715"
-        console.log(d.properties.buurtcode)
-      }
-      if (d.properties.buurtcode > 250) {
-        return "#E6E6FA"
-        console.log(d.properties.buurtcode)
-      }
+      return colors.at(d.properties.buurtcode/10)
+      // if (d.properties.buurtcode > 450) {
+      //   return "#ffa07a"
+      //   console.log(d.properties.buurtcode)
+      // }
+      // if (d.properties.buurtcode > 350) {
+      //   return "#FEE715"
+      //   console.log(d.properties.buurtcode)
+      // }
+      // if (d.properties.buurtcode > 250) {
+      //   return "#E6E6FA"
+      //   console.log(d.properties.buurtcode)
+      // }
     })
     .attr('fill-opacity', 0.6)
     .attr('stroke', 'black')
@@ -145,13 +159,15 @@ function VanAreasMap(buurten) {
     .attr('stroke-width', 2.5)
     .attr("style", "pointer-events: auto;")
     .on("mouseover", function (d) {
-      this.buurtData = d.target.__data__.properties
-      console.log("BuurtData" + this.buurtData)
+      context.hover(d.target.__data__.properties)
       //console.log(d.target.__data__.properties)
-      d3.select(this).attr("fill", "red")
+
+      d3.select(this).attr("fill", "black")
     })
     .on("mouseout", function (d) {
-      d3.select(this).attr("fill", "black")
+      d3.select(this).attr("fill", function (d) {
+        return colors.at(d.properties.buurtcode/10)
+      })
     })
 
   // Function to place svg based on zoom
@@ -176,17 +192,19 @@ export default {
       title: 'Tree map',
       codeSample: `Lorem ipsum`,
 
-      buurtData: null,
-      buurtcode: 334,
-      buurtnaam: "Urkhoven",
-      geo_point_2d: { lon: 5.53575370379062, lat: 51.43954314848161 },
-      objectid: 7,
-      shape_area: 1750602.06345603,
-      shape_len: 7083.0582035937305,
-      stadsdeelcode: 3,
-      stadsdeelnaam: "Stadsdeel Tongelre",
-      wijkcode: 33,
-      wijknaam: "Wijk Oud-Tongelre",
+      buurt: {
+        buurtData: null,
+        buurtcode: 334,
+        buurtnaam: "Urkhoven",
+        geo_point_2d: { lon: 5.53575370379062, lat: 51.43954314848161 },
+        objectid: 7,
+        shape_area: 1750602.06345603,
+        shape_len: 7083.0582035937305,
+        stadsdeelcode: 3,
+        stadsdeelnaam: "Stadsdeel Tongelre",
+        wijkcode: 33,
+        wijknaam: "Wijk Oud-Tongelre",
+      }
     }
   },
   created() {
@@ -203,12 +221,16 @@ export default {
       catch {
         this.width = 600
       }
+    },
+    hover(hoveredBuurt) {
+      this.buurt = hoveredBuurt;
+      console.log("TEST")
     }
   },
   mounted() {
     this.setBoxWidth()
 
-    VanAreasMap(this.$store.state.buurten)
+    VanAreasMap(this, this.$store.state.buurten)
     // const dummy_boom = [{
     //   "objectid": 994100,
     //   "boomnummer": 41507.0,
@@ -246,11 +268,30 @@ export default {
     // }]
     // ////
 
+
+
+
+
+    console.log("S")
+    // for (let buurt in this.$store.state.buurten.features) {
+
+    //   const res =  this.$store.state.bomen.filter(x => 
+    //   x.buurt_naam == this.$store.state.buurten.features[buurt].properties.buurtnaam);
+
+    //   console.log(res)
+    // }
+    console.log("E")
+
+
   }
 }
 </script>
   
 <style scoped>
+code {
+  text-align: left;
+}
+
 .leaflet-overlay-pane svg path {
   pointer-events: auto;
 }

@@ -10,7 +10,6 @@ import { createVuetify } from 'vuetify'
 import * as components from 'vuetify/components'
 import * as directives from 'vuetify/directives'
 
-import bomen_data from './../public/bomen.json'
 
 
 const vuetify = createVuetify({
@@ -20,16 +19,15 @@ const vuetify = createVuetify({
 
 createApp(App)
     .use(store)
-    .use(bomen_data)
     .use(router)
     .use(vuetify)
     .mount('#app')
+
 
 // https://observablehq.com/@mbostock/walmarts-growth // Trees plant-year, maybe colour == species
 
 // https://observablehq.com/@d3/hexbin-map // Amount in Buurt + median plant year
 // https://observablehq.com/@d3/bubble-map // Alternative
-
 
 // https://observablehq.com/@d3/seamless-zoomable-map-tiles // Zoom fix
 // https://observablehq.com/@d3/smooth-zooming // Zoom fix 2
