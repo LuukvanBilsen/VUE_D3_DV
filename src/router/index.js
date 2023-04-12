@@ -73,6 +73,13 @@ const routes = [
       return import('../views/TimeView.vue')
     }
   },
+  {
+    path: '/treemapview',
+    name: 'treemapview',
+    component: function () {
+      return import('../views/TreeView.vue')
+    }
+  },
 ]
 
 const router = createRouter({
