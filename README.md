@@ -1,5 +1,9 @@
 # d3_vis
 
+## Download datasets and save in public
+[Save as: "bomen.json"](https://data.eindhoven.nl/explore/dataset/bomen)
+[Save as: "buurten.json"](https://data.eindhoven.nl/explore/dataset/buurten/)
+
 ## Project setup
 ```
 npm install
